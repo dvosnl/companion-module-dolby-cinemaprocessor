@@ -76,17 +76,16 @@ module.exports = {
 
 				self.TIMER_FADER_POLL = setInterval(function () {
 					if (self.socket !== undefined && self.socket.isConnected) {
-						let pollCmd
 						if (self.config.model === 'cp650') {
-							pollCmd = 'fader_level=?'
+							self.socket.send('fader_level=?')
 						} else {
 							let prefix = ''
 							if (self.config.model === 'cp750') {
 								prefix = 'cp750.'
 							}
-							pollCmd = prefix + 'sys.fader ?'
+							self.socket.send(prefix + 'sys.fader ?')
+							self.socket.send(prefix + 'sys.macro_preset ?')
 						}
-						self.socket.send(pollCmd)
 					}
 				}, 200)
 			})
