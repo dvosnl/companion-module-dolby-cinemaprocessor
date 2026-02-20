@@ -30,6 +30,7 @@ class dolbyInstance extends InstanceBase {
 		this.MUTE_STATUS = null
 
 		this.TIMER_FADER = null
+		this.TIMER_FADER_POLL = null
 	}
 
 	async destroy() {
@@ -41,6 +42,11 @@ class dolbyInstance extends InstanceBase {
 		if (this.TIMER_FADER !== null) {
 			clearInterval(this.TIMER_FADER)
 			this.TIMER_FADER = null
+		}
+
+		if (this.TIMER_FADER_POLL !== null) {
+			clearInterval(this.TIMER_FADER_POLL)
+			this.TIMER_FADER_POLL = null
 		}
 	}
 

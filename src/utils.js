@@ -5,6 +5,11 @@ module.exports = {
 		let self = this
 		let cmd
 
+		if (self.TIMER_FADER_POLL !== null) {
+			clearInterval(self.TIMER_FADER_POLL)
+			self.TIMER_FADER_POLL = null
+		}
+
 		if (self.socket !== undefined) {
 			self.socket.destroy()
 			delete self.socket
@@ -68,6 +73,22 @@ module.exports = {
 						self.socket.send(cmd)
 					}, 1500)
 				}
+
+				self.TIMER_FADER_POLL = setInterval(function () {
+					if (self.socket !== undefined && self.socket.isConnected) {
+						let pollCmd
+						if (self.config.model === 'cp650') {
+							pollCmd = 'fader_level=?'
+						} else {
+							let prefix = ''
+							if (self.config.model === 'cp750') {
+								prefix = 'cp750.'
+							}
+							pollCmd = prefix + 'sys.fader ?'
+						}
+						self.socket.send(pollCmd)
+					}
+				}, 200)
 			})
 
 			self.socket.on('data', function (buffer) {
