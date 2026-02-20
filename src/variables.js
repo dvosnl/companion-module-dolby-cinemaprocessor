@@ -8,7 +8,7 @@ module.exports = {
 
 		if (self.config.model === 'cp650') {
 			variables.push({ variableId: 'format_button', name: 'Current Format Button' })
-		} else if (self.config.model === 'cp950') {
+		} else {
 			variables.push({ variableId: 'macro_preset', name: 'Current Macro Preset' })
 			variables.push({ variableId: 'macro_name', name: 'Current Macro Name' })
 		}
